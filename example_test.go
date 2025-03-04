@@ -42,3 +42,15 @@ func ExampleDeviceFilterFunc() {
 	fmt.Printf("\tProduct:       %s\n", device.Product())
 	fmt.Printf("\tSerial Number: %s\n", device.SerialNumber())
 }
+
+func ExampleDevice() {
+	device := usbhid.Device{}
+	device.SetPath("/dev/hidraw1")
+
+	if err := device.Open(false); err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Device: 0x%04x:0x%04x\n", device.VendorId(), device.ProductId())
+	// Output: Device: 0x0000:0x0000
+}

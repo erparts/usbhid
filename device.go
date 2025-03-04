@@ -244,14 +244,44 @@ func (d *Device) Path() string {
 	return d.path
 }
 
+// SetPath sets the path of the USB HID device.
+func (d *Device) SetPath(path string) error {
+	if d.isOpen() {
+		return fmt.Errorf("%w [%s]", ErrDeviceIsOpen, d)
+	}
+
+	d.path = path
+	return nil
+}
+
 // VendorId returns the vendor identifier of the USB HID device.
 func (d *Device) VendorId() uint16 {
 	return d.vendorId
 }
 
+// SetVendorId sets the vendor identifier of the USB HID device.
+func (d *Device) SetVendorId(vendorId uint16) error {
+	if d.isOpen() {
+		return fmt.Errorf("%w [%s]", ErrDeviceIsOpen, d)
+	}
+
+	d.vendorId = vendorId
+	return nil
+}
+
 // ProductId returns the product identifier of the USB HID device.
 func (d *Device) ProductId() uint16 {
 	return d.productId
+}
+
+// SetProductId sets the product identifier of the USB HID device.
+func (d *Device) SetProductId(productId uint16) error {
+	if d.isOpen() {
+		return fmt.Errorf("%w [%s]", ErrDeviceIsOpen, d)
+	}
+
+	d.productId = productId
+	return nil
 }
 
 // Version returns a BCD representation of the product version of
@@ -260,10 +290,30 @@ func (d *Device) Version() uint16 {
 	return d.version
 }
 
+// SetVersion sets the version of the USB HID device.
+func (d *Device) SetVersion(version uint16) error {
+	if d.isOpen() {
+		return fmt.Errorf("%w [%s]", ErrDeviceIsOpen, d)
+	}
+
+	d.version = version
+	return nil
+}
+
 // Manufacturer returns a string representation of the manufacturer of
 // the USB HID device.
 func (d *Device) Manufacturer() string {
 	return d.manufacturer
+}
+
+// SetManufacturer sets the manufacturer name of the USB HID device.
+func (d *Device) SetManufacturer(manufacturer string) error {
+	if d.isOpen() {
+		return fmt.Errorf("%w [%s]", ErrDeviceIsOpen, d)
+	}
+
+	d.manufacturer = manufacturer
+	return nil
 }
 
 // Product returns a string representation of the product name of
@@ -272,10 +322,30 @@ func (d *Device) Product() string {
 	return d.product
 }
 
+// SetProduct sets the product name of the USB HID device.
+func (d *Device) SetProduct(product string) error {
+	if d.isOpen() {
+		return fmt.Errorf("%w [%s]", ErrDeviceIsOpen, d)
+	}
+
+	d.product = product
+	return nil
+}
+
 // SerialNumber returns a string representation of the serial number of
 // the USB HID device.
 func (d *Device) SerialNumber() string {
 	return d.serialNumber
+}
+
+// SetSerialNumber sets the serial number of the USB HID device.
+func (d *Device) SetSerialNumber(serialNumber string) error {
+	if d.isOpen() {
+		return fmt.Errorf("%w [%s]", ErrDeviceIsOpen, d)
+	}
+
+	d.serialNumber = serialNumber
+	return nil
 }
 
 // UsagePage returns the usage page of the USB HID device.
