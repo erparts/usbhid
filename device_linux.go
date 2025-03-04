@@ -169,12 +169,6 @@ func enumerate() ([]*Device, error) {
 		}
 
 		for _, f := range files {
-			hidpath := filepath.Dir(filepath.Dir(f))
-			descriptor, err := sysfsReadAsBytes(hidpath, "report_descriptor")
-			if err != nil {
-				continue
-			}
-
 			d := &Device{
 				path:         filepath.Join("/dev", filepath.Base(f)),
 				vendorId:     vendorId,
@@ -184,7 +178,6 @@ func enumerate() ([]*Device, error) {
 				product:      product,
 				serialNumber: serialNumber,
 			}
-			d.usagePage, d.usage, d.reportInputLength, d.reportOutputLength, d.reportFeatureLength, d.reportWithId = hidParseReportDescriptor(descriptor)
 
 			rv = append(rv, d)
 		}
@@ -198,6 +191,14 @@ func enumerate() ([]*Device, error) {
 }
 
 func (d *Device) open(lock bool) error {
+	hidpath := filepath.Join("/sys/class/hidraw", filepath.Base(d.path), "device")
+	descriptor, err := sysfsReadAsBytes(hidpath, "report_descriptor")
+	if err != nil {
+		return fmt.Errorf("%w [%s]: %w", ErrDeviceFailedToOpen, d, err)
+	}
+
+	d.usagePage, d.usage, d.reportInputLength, d.reportOutputLength, d.reportFeatureLength, d.reportWithId = hidParseReportDescriptor(descriptor)
+
 	f, err := os.OpenFile(d.path, os.O_RDWR, 0755)
 	if err != nil {
 		return err
