@@ -47,6 +47,7 @@ type Device struct {
 	reportInputLength   uint16
 	reportOutputLength  uint16
 	reportFeatureLength uint16
+	reportId            uint16
 	reportWithId        bool
 
 	extra deviceExtra
@@ -356,4 +357,9 @@ func (d *Device) UsagePage() uint16 {
 // Usage returns the usage identifier of the USB HID device.
 func (d *Device) Usage() uint16 {
 	return d.usage
+}
+
+// ReportId returns the report id of the USB HID device.
+func (d *Device) ReportId() uint16 {
+	return d.reportId
 }

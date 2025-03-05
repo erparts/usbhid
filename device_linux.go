@@ -197,7 +197,9 @@ func (d *Device) open(lock bool) error {
 		return fmt.Errorf("%w [%s]: %w", ErrDeviceFailedToOpen, d, err)
 	}
 
-	d.usagePage, d.usage, d.reportInputLength, d.reportOutputLength, d.reportFeatureLength, d.reportWithId = hidParseReportDescriptor(descriptor)
+	d.reportId, d.usagePage, d.usage,
+		d.reportInputLength, d.reportOutputLength,
+		d.reportFeatureLength, d.reportWithId = hidParseReportDescriptor(descriptor)
 
 	f, err := os.OpenFile(d.path, os.O_RDWR, 0755)
 	if err != nil {

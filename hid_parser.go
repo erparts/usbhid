@@ -5,6 +5,7 @@
 package usbhid
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -36,7 +37,7 @@ func max(m map[uint32][]uint32) uint16 {
 	return rv
 }
 
-func hidParseReportDescriptor(descriptor []byte) (uint16, uint16, uint16, uint16, uint16, bool) {
+func hidParseReportDescriptor(descriptor []byte) (uint16, uint16, uint16, uint16, uint16, uint16, bool) {
 	var (
 		withId       bool
 		rcollectionl byte
@@ -95,6 +96,7 @@ func hidParseReportDescriptor(descriptor []byte) (uint16, uint16, uint16, uint16
 
 			case 8: // report id
 				rid = hidValue(size, descriptor[i:])
+				fmt.Println("RID", rid)
 				withId = true
 
 			case 9: // report count
@@ -113,5 +115,5 @@ func hidParseReportDescriptor(descriptor []byte) (uint16, uint16, uint16, uint16
 		i += int(size)
 	}
 
-	return uint16(rusagePage), uint16(rusage), max(input), max(output), max(feature), withId
+	return uint16(rid), uint16(rusagePage), uint16(rusage), max(input), max(output), max(feature), withId
 }
