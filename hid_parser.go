@@ -5,7 +5,6 @@
 package usbhid
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -96,7 +95,6 @@ func hidParseReportDescriptor(descriptor []byte) (uint16, uint16, uint16, uint16
 
 			case 8: // report id
 				rid = hidValue(size, descriptor[i:])
-				fmt.Println("RID", rid)
 				withId = true
 
 			case 9: // report count
